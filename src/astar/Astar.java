@@ -15,6 +15,7 @@
  */
 package astar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class Astar {
     public static HashMap<String,Integer> gmap=new HashMap<>();
     public static HashMap<String,Integer> hmap=new HashMap<>();
     public static HashMap<String,Integer> fmap=new HashMap<>();
+    public static ArrayList<String> closed=new ArrayList<>();
     static String init,goal;
     static int g=-1,gUpdated;
     
@@ -52,6 +54,8 @@ public class Astar {
                     fmap.remove(k);
                     gmap.remove(k);
                     hmap.remove(k);
+                    System.out.println("Selected Successor: "+k);
+                    closed.add(k);
                     selected=k;
                     break;
                 }
@@ -61,10 +65,8 @@ public class Astar {
             left(selected);
             right(selected);
         }
-        
-        
-        
     }
+    
     private static void check(String state) 
     {
         int newF=calcF(state);
@@ -80,7 +82,7 @@ public class Astar {
                 gmap.putIfAbsent(state, newF);
             }
         }
-        else
+        else if(!closed.contains(state))
         {
             fmap.putIfAbsent(state,newF);
         }
@@ -89,7 +91,7 @@ public class Astar {
             System.out.println("G = "+gmap.toString());
             System.out.println("H = "+hmap.toString());
             System.out.println("F = "+fmap.toString()+"\n");
-            System.out.println("Goal State found !");
+            System.out.println("Goal State found : "+goal);
             System.exit(0);
         }
     }
@@ -117,12 +119,13 @@ public class Astar {
     }
     private static Integer calcG(String state)
     {
+        int ge;
         if(gUpdated==0)
         {
             g++;
             gUpdated=1;
         }
-        int ge=g;
+        ge=g;
          return ge;
     }
 
