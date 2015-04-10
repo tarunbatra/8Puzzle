@@ -30,9 +30,7 @@ class Main {
         String str=e.scan.next();                                 // Input the Board State as a String with 0 as the Blank Space
         System.out.println("Enter the goal state");
         e.goal=e.scan.next();                                 // Input the Board State as a String with 0 as the Blank Space
-
         e.add(str, null);                                                   // Add the Initial State
-
         while(!e.agenda.isEmpty()){
             String currentState = e.agenda.remove();
             e.up(currentState);                                       // Move the blank space up and add new state to queue

@@ -45,7 +45,7 @@ public class Main
             
             
         String operation,state;
-        while(!obj.op.isEmpty() || !obj.states.isEmpty())
+        while(!obj.op.isEmpty() && !obj.states.isEmpty())
         {
             operation =obj.op.pop();
             System.out.println("Operation performed: "+operation);
@@ -71,7 +71,7 @@ public class Main
                 System.out.println("Level: "+obj.level);
                 obj.pushOp();
                 obj.states.push(state);
-                System.out.println(obj.states.toString()+"\n\n");
+                System.out.println(obj.states.toString()+"\n"+obj.op.toString()+"\n\n");
             }
             
         }
@@ -113,8 +113,10 @@ public class Main
     private String up(String currentState) {
         String  nextState=null;
         int a = currentState.indexOf("0");
-        if(a>1){
-            nextState = swap(currentState,a,a-2);
+         if(a>2)
+        {
+            nextState = currentState.substring(0,a-3)+"0"+currentState.substring(a-2,a)+currentState.charAt(a-3)+currentState.substring(a+1);
+           
         }
         return nextState;
     }
@@ -122,8 +124,10 @@ public class Main
     private String down(String currentState) {
         String  nextState=null;
         int a = currentState.indexOf("0");
-        if(a<2){
-            nextState = swap(currentState,a,a+2);
+        if(a<6)
+        {
+            nextState = currentState.substring(0,a)+currentState.substring(a+3,a+4)+currentState.substring(a+1,a+3)+"0"+currentState.substring(a+4);
+            
         }
             return nextState;
     }
@@ -131,25 +135,29 @@ public class Main
     private String left(String currentState) {
         String  nextState=null;
         int a = currentState.indexOf("0");
-        if(a!=0 && a!=2){
-            nextState = swap(currentState,a,a-1);
-        }
-            return nextState;
+        if(a!=0 && a!=3 && a!=6)
+        {
+           nextState = currentState.substring(0,a-1)+"0"+currentState.charAt(a-1)+currentState.substring(a+1);
+                
+        }   return nextState;
     }
 
     private String right(String currentState) {
         String  nextState=null;
         int a = currentState.indexOf("0");
-        if(a!=1 && a!=3){
-            nextState = swap(currentState,a,a+1);
+        if(a!=2 && a!=5 && a!=8)
+        {
+            nextState = currentState.substring(0,a)+currentState.charAt(a+1)+"0"+currentState.substring(a+2);
+                  
         }
             return nextState;
     }
 
     private String nullify(String currentState) {
         level-=2;
+        op.pop();
         states.pop();
-        return op.pop();
+        return null;
     }
     
     private String swap(String str, int a, int b)
@@ -160,6 +168,6 @@ public class Main
         charArray[b]=temp;
         String swapped = new String(charArray);
         return swapped;
-    }
+    }   
     
 }
